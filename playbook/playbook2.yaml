@@ -1,0 +1,11 @@
+---
+- name: Getting list of items on /tmp folder
+  hosts: all
+  tasks:
+          - name: list o items in /tmp
+            command: 'ls -l | tmp' 
+            register: a
+
+          - debug: list of items
+              var: a
+...

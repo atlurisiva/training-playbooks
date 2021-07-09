@@ -1,0 +1,18 @@
+---
+- name: copy file from server1 to server2
+  hosts: 172.31.86.164
+  tasks:
+          - name: fetch the file from server1 to /tmp
+            fetch:
+                    src: /home/ubuntu/file1
+                    dest: /tmp
+- name: copy the file from ansible to server2
+  hosts: 172.31.93.126
+  tasks: 
+           - name: copy file
+             copy:
+                    src: /tmp/172.31.86.164/home/ubuntu
+                    dest: /home/ubuntu/
+
+
+...

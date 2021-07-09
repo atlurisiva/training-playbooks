@@ -1,0 +1,24 @@
+---
+- name: Configure apache
+  hosts: all
+  tasks:
+         - name: install apache
+           apt:
+                 name: apache2
+                 state: present
+         - name: edit inde file 
+           copy:
+                 content: "create from playbook"
+                 dest: /var/www/html/index.html
+         - name: restart the apache
+           service:
+                   name: apache2
+                   state: restarted
+         - name: check url 
+           uri:
+                   url: "{{item}}"
+                   status_code: 200
+           with_items:
+                - http://172.31.86.164
+                - http://172.31.93.126         
+...

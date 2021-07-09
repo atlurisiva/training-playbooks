@@ -1,0 +1,13 @@
+---
+- name: create users on the managed nodes 
+  hosts: webserver
+  tasks:
+          - name: create user
+            user:
+                    name: anu1
+                    password: test@123
+                    home: /home/anu1
+                    uid: 1359
+                    shell: /bin/bash
+
+...

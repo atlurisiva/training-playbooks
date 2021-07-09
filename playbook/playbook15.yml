@@ -1,0 +1,21 @@
+---
+- name: implmenteing tags
+  hosts: all
+  tasks:
+          - name: install tree
+            apt:
+                     name: tree
+                     state: present
+            tags: tree_installation
+          - name: create user
+            user:
+                      name: hanu
+                      password: test@123
+                      home: /home/ubuntu/hanu
+            tags: user_creation
+          - name: copy /etc/passwd
+            copy:
+                    src: /etc/passwd
+                    dest: /tmp
+
+...

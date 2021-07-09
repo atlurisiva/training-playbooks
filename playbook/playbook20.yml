@@ -1,0 +1,17 @@
+- name: create a file f1, if a folder f1 is not present
+  hosts: all
+  tasks: 
+        - name: check the file f1
+          stat:
+                  path: /tmp/f1
+          register: result
+          ignore_errors: true
+
+        - name: check the output 
+          debug: 
+            var: a
+        - name: create a file
+          file:
+                  name: /tmp/f1
+                  state: touch
+          when: result is failed

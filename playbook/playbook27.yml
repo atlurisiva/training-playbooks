@@ -1,0 +1,7 @@
+- name: create users
+  hosts: all
+  tasks:
+          - name: user createion
+            user:
+                    name: anu
+                    home: /home/anu

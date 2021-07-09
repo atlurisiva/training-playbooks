@@ -1,0 +1,4 @@
+- name: edit index file
+  copy:
+          content: "welcome to siva company"
+          dest: /var/www/html/index.html

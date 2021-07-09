@@ -1,0 +1,11 @@
+- name: implmenting when condition 
+  hosts: all
+  vars:
+          - a: 9
+  tasks:
+          - name: copy a file 
+            copy:
+                    src: /etc/passwd
+                    dest: /tmp
+            when: a == 10
+

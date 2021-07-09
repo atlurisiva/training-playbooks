@@ -1,0 +1,11 @@
+- name: install apache
+  hosts: all
+  tasks: 
+    - name: include module 
+      include: "{{item}}"
+      with_items:
+              - installapache.yml
+              - homepage.yml
+              - restartapache.yml
+              - url.yml
+

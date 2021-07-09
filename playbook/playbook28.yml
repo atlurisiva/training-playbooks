@@ -1,0 +1,55 @@
+- name: setup requeired softwares 
+  hosts: all
+  tasks: 
+   - name: install softwares
+     apt:
+            name: "{{item.a}}"
+            state: present
+            update_cache: "{{item.b}}"
+     with_items:
+                  - {a: openjdk-8-jdk,b: yes}
+                  - {a: git,b: no}
+                  - {a: maven,b: no}
+                  - {a: tomcat9,b: no}
+                  - {a: tomcat9-admin,b: no}
+
+- name: continous download and continous build
+  hosts: jenkinsserver
+  tasks:
+          - name: download development code from git
+            git:
+                    repo: https://github.com/atlurisiva/mavenrepo.git
+                    dest: /tmp/mygit
+          - name: build the code and create a artificat
+            shell: cd /tmp/mygit; mvn package
+         #   register: result
+          #- name: logs of code 
+           # debug:
+            #        var: result 
+          - name: fetch the artifact from jenkins server to controller
+            fetch:
+                    src: /tmp/mygit/webapp/target/webapp.war
+                    dest: /tmp
+- name: conitinous deployment and teting 
+  hosts: server
+  tasks:
+          - name: deploy artifcat and qa server
+            copy:
+                    src: /tmp/172.31.86.164/tmp/mygit/webapp/target/webapp.war
+                    dest: /var/lib/tomcat9/webapps/qaapp1.war
+          - name: donwlaod the selium mod
+            git:
+                  repo: https://github.com/intelliqittrainings/FunctionalTesting.git
+                  dest: /tmp/test-git
+          - name: continius testing 
+            shell: java -jar /tmp/test-git/testing.jar
+- name: continous delivery
+  hosts: server
+  tasks:
+          - name: copy artifcait to qa server
+            copy:
+                    src: /tmp/172.31.86.164/tmp/mygit/webapp/target/webapp.war
+                    dest: /var/lib/tomcat9/webapps/prodapp.war
+
+ 
+
